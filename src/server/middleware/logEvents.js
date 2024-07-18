@@ -22,13 +22,14 @@ const giveLoggedItemsUUID = false;
  * @returns {Promise<void>} - A promise that resolves when the log operation is complete.
  */
 const logEvents = async (message, logName, { print } = {}) => {
+    console.log(message);
     if (typeof message !== 'string') return console.trace("Cannot log message when it is not a string.")
 
     if (print) console.error(message);
     const dateTime = format(new Date(), 'yyyy/MM/dd  HH:mm:ss');
     const logItem = giveLoggedItemsUUID ? `${dateTime}   ${uuid()}   ${message}\n` // With unique UUID
-                                        : `${dateTime}   ${message}\n`;
-    
+        : `${dateTime}   ${message}\n`;
+
     try {
         const logsPath = path.join(__dirname, '..', '..', '..', 'logs');
         ensureDirectoryExists(logsPath)
@@ -57,7 +58,7 @@ const logger = (req, res, next) => {
     }
 
     logEvents(logThis, 'reqLog.txt');
-    
+
     next(); // Continue to next middleware
 }
 
